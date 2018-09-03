@@ -8,6 +8,7 @@ import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.data.AddressBook;
+import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.parser.Parser;
 import seedu.addressbook.storage.StorageFile;
@@ -106,14 +107,21 @@ public class Main {
      * @return result of the command
      */
     private CommandResult executeCommand(Command command)  {
+        CommandResult result = null;
         try {
             command.setData(addressBook, lastShownList);
-            CommandResult result = command.execute();
+            result = command.execute();
             storage.save(addressBook);
-            return result;
+        } catch (StorageOperationException ioe) {
+            ui.showToUser(ioe.getMessage());
+            ui.showToUser("Address Book is having difficulty accessing the storage file.");
+            ui.showToUser("Please ensure that Address Book is given read and write permissions.");
+            ui.showToUser("The Address Book will continue operation for now without data manipulation capabilities.");
         } catch (Exception e) {
             ui.showToUser(e.getMessage());
             throw new RuntimeException(e);
+        } finally {
+            return result;
         }
     }
 
