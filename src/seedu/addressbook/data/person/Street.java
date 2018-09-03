@@ -18,4 +18,11 @@ public class Street {
     public String getValue() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Street // instanceof handles nulls
+                && this.getValue().equals(((Street) other).getValue())); // state check
+    }
 }

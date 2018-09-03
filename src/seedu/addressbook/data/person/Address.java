@@ -53,6 +53,22 @@ public class Address {
                 + FIELD_DELIMITER + postalCode.getValue();
     }
 
+    public Block getBlock() {
+        return block;
+    }
+
+    public Street getStreet() {
+        return street;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public PostalCode getPostalCode() {
+        return postalCode;
+    }
+
     @Override
     public String toString() {
         return getValue();
@@ -60,9 +76,13 @@ public class Address {
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof Address // instanceof handles nulls
-                && this.getValue().equals(((Address) other).getValue())); // state check
+        if (other != this // short circuit if same object
+                && !(other instanceof Address)) {
+            return false;
+        }
+        Address otherAddress = (Address) other;
+        return block.equals(otherAddress.getBlock()) && street.equals(otherAddress.getStreet()) &&
+                unit.equals(otherAddress.getUnit()) && postalCode.equals(otherAddress.getPostalCode());
     }
 
     @Override

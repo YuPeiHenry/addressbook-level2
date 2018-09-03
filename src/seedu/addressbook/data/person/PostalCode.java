@@ -18,4 +18,11 @@ public class PostalCode {
     public String getValue() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof PostalCode // instanceof handles nulls
+                && this.getValue().equals(((PostalCode) other).getValue())); // state check
+    }
 }
