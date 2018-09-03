@@ -12,6 +12,7 @@ public class Address {
     public static final String MESSAGE_ADDRESS_CONSTRAINTS = "BLOCK, STREET, UNIT, POSTAL_CODE";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
 
+    private static final String FIELD_DELIMITER = ",";
     private static final int NUM_FIELDS = 4;
     private Block block;
     private Street street;
@@ -30,7 +31,7 @@ public class Address {
         if (!isValidAddress(trimmedAddress)) {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
-        String[] fields = trimmedAddress.split(",");
+        String[] fields = trimmedAddress.split(FIELD_DELIMITER);
         if (fields.length != NUM_FIELDS) {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
@@ -48,7 +49,8 @@ public class Address {
     }
 
     public String getValue() {
-        return block.getValue() + street.getValue() + unit.getValue() + postalCode.getValue();
+        return block.getValue() + FIELD_DELIMITER + street.getValue() + FIELD_DELIMITER + unit.getValue()
+                + FIELD_DELIMITER + postalCode.getValue();
     }
 
     @Override
